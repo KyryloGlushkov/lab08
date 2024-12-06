@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Counter Game</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #091236, #1E215D);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #E0E0E0;
+            height: 600px;
+            justify-content: center;
+        }
+        
+        #game-container {
+            max-width: 600px;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #4caf50, #00FFFF) 1;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            color: #FFF;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #00FFAB;
+            text-shadow: 0 0 10px #00FFAB, 0 0 20px #00FFAB, 0 0 30px #00FFAB;
+            margin-bottom: 20px;
+        }
+
+        #score {
+            font-size: 15px;
+            margin: 15px 0;
+            color: #E0E0E0;
+            text-shadow: 0 0 5px #4caf50, 0 0 10px #4caf50;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, #4caf50, #00FFAB);
+            border: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 171, 0.4);
+            text-shadow: 0 0 3px #000;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 255, 171, 0.6), 0 12px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        button:active {
+            transform: scale(1.05);
+        }
+
+        #result-container {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 2px solid #4caf50;
+            color: #00FFAB;
+            font-size: 15px;
+            text-shadow: 0 0 5px #4caf50, 0 0 10px #4caf50;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Score Counter</h1>
+        <p id="score">Score: <span id="userScore">0</span> - <span id="computerScore">0</span></p>
+        <button onclick="playGame()">Play</button>
+        <div id="result-container">
+            <p id="result">Result: Press the button to start!</p>
+        </div>
+    </div>
+
+    <script>
+        let userScore = 0;
+        let computerScore = 0;
+        let userName = prompt("Enter your name:");
+
+        if (!userName || userName.trim() === "") {
+            userName = "Player";
+        }
+
+        document.getElementById("result").textContent = `${userName}, press the button!`;
+
+        function playGame() {
+            const userNumber = Math.floor(Math.random() * 100) + 1;
+            const computerNumber = Math.floor(Math.random() * 100) + 1;
+
+            let resultText = `${userName} gets: ${userNumber}. Computer gets: ${computerNumber}. `;
+
+            if (userNumber > computerNumber) {
+                userScore++;
+                resultText += `${userName} wins this round!`;
+            } else if (userNumber < computerNumber) {
+                computerScore++;
+                resultText += `Computer wins this round!`;
+            } else {
+                resultText += `Draw`;
+            }
+            
+
+            document.getElementById("userScore").textContent = userScore;
+            document.getElementById("computerScore").textContent = computerScore;
+            document.getElementById("result").textContent = resultText;
+
+            if (userScore === 3 || computerScore === 3) {
+                const winner = userScore === 3 ? userName : "Computer";
+                alert(`${winner} wins!`);
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            userScore = 0;
+            computerScore = 0;
+            document.getElementById("userScore").textContent = userScore;
+            document.getElementById("computerScore").textContent = computerScore;
+            document.getElementById("result").textContent = `${userName}, press the button to start!`;
+        }
+    </script>
+</body>
+</html>
